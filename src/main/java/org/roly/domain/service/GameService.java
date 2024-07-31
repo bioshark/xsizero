@@ -38,7 +38,6 @@ public class GameService {
                 break;
             }
         }
-        System.out.println(board);
         System.out.println("The Winner is " + possibleWinner.get());
 
     }
