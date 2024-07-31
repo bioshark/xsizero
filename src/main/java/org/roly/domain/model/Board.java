@@ -1,6 +1,6 @@
-package org.roly.domain;
+package org.roly.domain.model;
 
-import org.roly.domain.Cell.State;
+import org.roly.domain.model.Cell.State;
 
 public class Board {
 

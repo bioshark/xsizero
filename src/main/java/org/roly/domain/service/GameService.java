@@ -1,8 +1,8 @@
 package org.roly.domain.service;
 
 import java.util.Optional;
-import org.roly.domain.Board;
-import org.roly.domain.Cell;
+import org.roly.domain.model.Board;
+import org.roly.domain.model.Cell;
 
 public class GameService {
 
@@ -38,24 +38,24 @@ public class GameService {
     }
 
     private Optional<Cell> checkNeighbours(Board board, int position) {
-        if (position == 1) {
+        if (position == 0) {
             Cell cell = board.getGrid()[0][0];
             if ((cell.equals(board.getGrid()[0][1]) && cell.equals(board.getGrid()[0][2])) ||
                     (cell.equals(board.getGrid()[1][0]) && cell.equals(board.getGrid()[2][0])) ||
                     (cell.equals(board.getGrid()[1][1]) && cell.equals(board.getGrid()[2][2]))) {
                 return Optional.of(cell);
             }
-        } else if (position == 2) {
+        } else if (position == 1) {
             Cell cell = board.getGrid()[1][1];
             if ((cell.equals(board.getGrid()[1][2]) && cell.equals(board.getGrid()[3][2])) ||
                     (cell.equals(board.getGrid()[1][0]) && cell.equals(board.getGrid()[1][2])) ||
                     (cell.equals(board.getGrid()[2][0]) && cell.equals(board.getGrid()[0][2]))) {
                 return Optional.of(cell);
             }
-        } else if (position == 3) {
+        } else if (position == 2) {
             Cell cell = board.getGrid()[2][2];
             if ((cell.equals(board.getGrid()[2][0]) && cell.equals(board.getGrid()[2][1])) ||
-                    (cell.equals(board.getGrid()[1][3]) && cell.equals(board.getGrid()[0][3]))) {
+                    (cell.equals(board.getGrid()[1][2]) && cell.equals(board.getGrid()[0][2]))) {
                 return Optional.of(cell);
             }
         }

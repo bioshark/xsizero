@@ -1,9 +1,9 @@
 package org.roly.app;
 
 import java.util.Optional;
-import org.roly.domain.Cell;
-import org.roly.domain.Cell.State;
-import org.roly.domain.Board;
+import org.roly.domain.model.Cell;
+import org.roly.domain.model.Cell.State;
+import org.roly.domain.model.Board;
 import org.roly.domain.service.GameService;
 
 public class XsiZero
@@ -20,9 +20,9 @@ public class XsiZero
 
         System.out.println(board);
 
-        Optional<Cell> winneer = service.whoWon(board);
-        if (winneer.isPresent() && !winneer.get().equals(new Cell(State.EMPTY))) {
-            System.out.println("The winner is " + winneer.get().state());
+        Optional<Cell> winner = service.whoWon(board);
+        if (winner.isPresent() && !winner.get().equals(new Cell(State.EMPTY))) {
+            System.out.println("The winner is " + winner.get().state());
         } else {
             System.out.println("There is no winner yet, keep playing!");
         }
