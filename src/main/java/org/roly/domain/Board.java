@@ -2,11 +2,11 @@ package org.roly.domain;
 
 import org.roly.domain.Cell.State;
 
-public class Grid {
+public class Board {
 
     private Cell[][] grid;
 
-    public Grid(Cell[][] grid) {
+    public Board(Cell[][] grid) {
         Cell[][] populatedGrid = new Cell[grid.length][grid.length];
         for (int i = 0; i < populatedGrid.length; i++) {
             for (int j = 0; j < populatedGrid.length; j++) {
@@ -16,7 +16,7 @@ public class Grid {
         this.grid = populatedGrid;
     }
 
-    public Grid() {
+    public Board() {
         Cell[][] grid = {
             {new Cell(State.EMPTY), new Cell(State.EMPTY), new Cell(State.EMPTY)},
             {new Cell(State.EMPTY), new Cell(State.EMPTY), new Cell(State.EMPTY)},
@@ -49,6 +49,10 @@ public class Grid {
         }
         generateLineBorder(sb, grid.length);
         return sb.toString();
+    }
+
+    public Cell[][] getGrid() {
+        return grid;
     }
 
     private static void generateLineBorder(StringBuilder sb, int length) {
