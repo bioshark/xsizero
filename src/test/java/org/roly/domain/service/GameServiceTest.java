@@ -15,10 +15,10 @@ class GameServiceTest {
     @Test
     void shouldDetectWinnerHorizontally() {
         Board board = new Board();
-        board.addCell(new Cell(State.X), 1, 1);
-        board.addCell(new Cell(State.X), 1, 2);
-        board.addCell(new Cell(State.X), 1, 3);
-        System.out.println(board);
+        board.addCell(new Cell(State.X), "11");
+        board.addCell(new Cell(State.X), "12");
+        board.addCell(new Cell(State.X), "13");
+        board.display();
 
         Optional<Cell> winnerCell = gameService.determineWinner(board);
 
@@ -29,10 +29,10 @@ class GameServiceTest {
     @Test
     void shouldDetectWinnerHorizontallyDown() {
         Board board = new Board();
-        board.addCell(new Cell(State.X), 3, 1);
-        board.addCell(new Cell(State.X), 3, 2);
-        board.addCell(new Cell(State.X), 3, 3);
-        System.out.println(board);
+        board.addCell(new Cell(State.X), "31");
+        board.addCell(new Cell(State.X), "32");
+        board.addCell(new Cell(State.X), "33");
+        board.display();
 
         Optional<Cell> winnerCell = gameService.determineWinner(board);
 
@@ -43,57 +43,53 @@ class GameServiceTest {
     @Test
     void shouldDetectWinnerVertically() {
         Board board = new Board();
-        board.addCell(new Cell(State.X), 1, 1);
-        board.addCell(new Cell(State.X), 2, 1);
-        board.addCell(new Cell(State.X), 3, 1);
-        System.out.println(board);
+        board.addCell(new Cell(State.X), "11");
+        board.addCell(new Cell(State.X), "21");
+        board.addCell(new Cell(State.X), "31");
+        board.display();
 
         Optional<Cell> winnerCell = gameService.determineWinner(board);
 
-        assertThat(winnerCell).isNotEmpty();
-        assertThat(winnerCell.get()).isEqualTo(new Cell(State.X));
+        assertThat(winnerCell).isNotEmpty().get().isEqualTo(new Cell(State.X));
     }
 
     @Test
     void shouldDetectWinnerVerticallyRight() {
         Board board = new Board();
-        board.addCell(new Cell(State.X), 1, 3);
-        board.addCell(new Cell(State.X), 2, 3);
-        board.addCell(new Cell(State.X), 3, 3);
-        System.out.println(board);
+        board.addCell(new Cell(State.X), "13");
+        board.addCell(new Cell(State.X), "23");
+        board.addCell(new Cell(State.X), "33");
+        board.display();
 
         Optional<Cell> winnerCell = gameService.determineWinner(board);
 
-        assertThat(winnerCell).isNotEmpty();
-        assertThat(winnerCell.get()).isEqualTo(new Cell(State.X));
+        assertThat(winnerCell).isNotEmpty().get().isEqualTo(new Cell(State.X));
     }
 
     @Test
     void shouldDetectWinnerDiagonalLeft() {
         Board board = new Board();
-        board.addCell(new Cell(State.O), 1, 1);
-        board.addCell(new Cell(State.O), 2, 2);
-        board.addCell(new Cell(State.O), 3, 3);
-        System.out.println(board);
+        board.addCell(new Cell(State.O), "11");
+        board.addCell(new Cell(State.O), "22");
+        board.addCell(new Cell(State.O), "33");
+        board.display();
 
         Optional<Cell> winnerCell = gameService.determineWinner(board);
 
-        assertThat(winnerCell).isNotEmpty();
-        assertThat(winnerCell.get()).isEqualTo(new Cell(State.O));
+        assertThat(winnerCell).isNotEmpty().get().isEqualTo(new Cell(State.O));
     }
 
     @Test
     void shouldDetectWinnerDiagonalRight() {
         Board board = new Board();
-        board.addCell(new Cell(State.O), 1, 3);
-        board.addCell(new Cell(State.O), 2, 2);
-        board.addCell(new Cell(State.O), 3, 1);
-        System.out.println(board);
+        board.addCell(new Cell(State.O), "13");
+        board.addCell(new Cell(State.O), "22");
+        board.addCell(new Cell(State.O), "31");
+        board.display();
 
         Optional<Cell> winnerCell = gameService.determineWinner(board);
 
-        assertThat(winnerCell).isNotEmpty();
-        assertThat(winnerCell.get()).isEqualTo(new Cell(State.O));
+        assertThat(winnerCell).isNotEmpty().get().isEqualTo(new Cell(State.O));
     }
 
 }

@@ -4,17 +4,8 @@ import org.roly.domain.model.Cell.State;
 
 public class Board {
 
+    private int numberOfEmptyCells;
     private Cell[][] grid;
-
-    public Board(Cell[][] grid) {
-        Cell[][] populatedGrid = new Cell[grid.length][grid.length];
-        for (int i = 0; i < populatedGrid.length; i++) {
-            for (int j = 0; j < populatedGrid.length; j++) {
-                populatedGrid[i][j] = new Cell(State.EMPTY);
-            }
-        }
-        this.grid = populatedGrid;
-    }
 
     public Board() {
         Cell[][] grid = {
@@ -23,14 +14,19 @@ public class Board {
             {new Cell(State.EMPTY), new Cell(State.EMPTY), new Cell(State.EMPTY)}
         };
         this.grid = grid;
+        this.numberOfEmptyCells = 9;
     }
 
-    public void addCell(Cell cell, int line, int col) {
-        grid[line - 1][col - 1] = cell;
+    public void addCell(Cell cell, String input) {
+        grid[Integer.parseInt(input) / 10 - 1][Integer.parseInt(input) % 10 - 1] = cell;
+        this.numberOfEmptyCells--;
     }
 
-    @Override
-    public String toString() {
+    public boolean areCellsLeft() {
+        return numberOfEmptyCells > 0;
+    }
+
+    public void display() {
         StringBuilder sb = new StringBuilder();
         topLegend(sb, grid.length);
         int lineLegend = 1;
@@ -48,7 +44,7 @@ public class Board {
             sb.append("|\n");
         }
         generateLineBorder(sb, grid.length);
-        return sb.toString();
+        System.out.println(sb);
     }
 
     public Cell[][] getGrid() {

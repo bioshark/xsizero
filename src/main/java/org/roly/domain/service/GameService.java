@@ -20,30 +20,35 @@ public class GameService {
 
     public void play() {
         Board board = new Board();
-        System.out.println(board);
-        Optional<Cell> possibleWinner = Optional.empty();
-        while (determineWinner(board).isEmpty()) {
-            String inputForX = readInput(State.X);
-            board.addCell(new Cell(State.X), Integer.parseInt(inputForX) / 10, Integer.parseInt(inputForX) % 10);
-            System.out.println(board);
-            possibleWinner = determineWinner(board);
+        board.display();
+        Optional<Cell> possibleWinner;
+        do {
+            possibleWinner = makeMove(State.X, board);
             if (possibleWinner.isPresent()) {
                 break;
             }
-            String inputForO = readInput(State.O);
-            board.addCell(new Cell(State.O), Integer.parseInt(inputForO) / 10, Integer.parseInt(inputForO) % 10);
-            System.out.println(board);
-            possibleWinner = determineWinner(board);
-            if (possibleWinner.isPresent()) {
-                break;
-            }
-        }
-        System.out.println("The Winner is " + possibleWinner.get());
+            possibleWinner = makeMove(State.O, board);
+        } while(possibleWinner.isPresent() || board.areCellsLeft());
+        displayGameOutcome(possibleWinner);
+    }
 
+    private Optional<Cell> makeMove(State state, Board board) {
+        String input = readInput(state);
+        board.addCell(new Cell(state), input);
+        board.display();
+        return determineWinner(board);
+    }
+
+    private static void displayGameOutcome(Optional<Cell> possibleWinner) {
+        if (possibleWinner.isPresent()) {
+            System.out.println("The Winner is " + possibleWinner.get());
+        } else {
+            System.out.println("No winner can be determined");
+        }
     }
 
     private String readInput(State state) {
-        System.out.print("Position for " + state);
+        System.out.print("Enter position (row, column) for " + state + ": ");
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }

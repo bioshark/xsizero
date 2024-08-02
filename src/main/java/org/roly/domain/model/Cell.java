@@ -18,6 +18,10 @@ public record Cell(
         private String value;
     }
 
+    public boolean isOcupied() {
+        return state != State.EMPTY;
+    }
+
     @Override
     public String toString() {
         return state.value.toString();
