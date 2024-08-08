@@ -1,12 +1,12 @@
 package org.roly.app;
 
-import org.roly.domain.service.GameService;
+import org.roly.domain.service.ManualGameService;
 
 public class XsiZero
 {
     public static void main( String[] args ) {
 
-        GameService service = new GameService();
+        ManualGameService service = new ManualGameService();
         service.play();
     }
 }

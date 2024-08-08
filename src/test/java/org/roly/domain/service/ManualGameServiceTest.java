@@ -8,9 +8,9 @@ import org.roly.domain.model.Board;
 import org.roly.domain.model.Cell;
 import org.roly.domain.model.Cell.State;
 
-class GameServiceTest {
+class ManualGameServiceTest {
 
-    private final GameService gameService = new GameService();
+    private final ManualGameService service = new ManualGameService();
 
     @Test
     void shouldDetectWinnerHorizontally() {
@@ -20,7 +20,7 @@ class GameServiceTest {
         board.addCell(new Cell(State.X), "13");
         board.display();
 
-        Optional<Cell> winnerCell = gameService.determineWinner(board);
+        Optional<Cell> winnerCell = service.determineWinner(board);
 
         assertThat(winnerCell).isNotEmpty();
         assertThat(winnerCell.get()).isEqualTo(new Cell(State.X));
@@ -34,7 +34,7 @@ class GameServiceTest {
         board.addCell(new Cell(State.X), "33");
         board.display();
 
-        Optional<Cell> winnerCell = gameService.determineWinner(board);
+        Optional<Cell> winnerCell = service.determineWinner(board);
 
         assertThat(winnerCell).isNotEmpty();
         assertThat(winnerCell.get()).isEqualTo(new Cell(State.X));
@@ -48,7 +48,7 @@ class GameServiceTest {
         board.addCell(new Cell(State.X), "31");
         board.display();
 
-        Optional<Cell> winnerCell = gameService.determineWinner(board);
+        Optional<Cell> winnerCell = service.determineWinner(board);
 
         assertThat(winnerCell).isNotEmpty().get().isEqualTo(new Cell(State.X));
     }
@@ -61,7 +61,7 @@ class GameServiceTest {
         board.addCell(new Cell(State.X), "33");
         board.display();
 
-        Optional<Cell> winnerCell = gameService.determineWinner(board);
+        Optional<Cell> winnerCell = service.determineWinner(board);
 
         assertThat(winnerCell).isNotEmpty().get().isEqualTo(new Cell(State.X));
     }
@@ -74,7 +74,7 @@ class GameServiceTest {
         board.addCell(new Cell(State.O), "33");
         board.display();
 
-        Optional<Cell> winnerCell = gameService.determineWinner(board);
+        Optional<Cell> winnerCell = service.determineWinner(board);
 
         assertThat(winnerCell).isNotEmpty().get().isEqualTo(new Cell(State.O));
     }
@@ -87,7 +87,7 @@ class GameServiceTest {
         board.addCell(new Cell(State.O), "31");
         board.display();
 
-        Optional<Cell> winnerCell = gameService.determineWinner(board);
+        Optional<Cell> winnerCell = service.determineWinner(board);
 
         assertThat(winnerCell).isNotEmpty().get().isEqualTo(new Cell(State.O));
     }
