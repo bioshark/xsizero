@@ -18,6 +18,14 @@ public interface PlayableGame {
         return Optional.empty();
     }
 
+    default void displayGameOutcome(Optional<Cell> possibleWinner) {
+        if (possibleWinner.isPresent()) {
+            System.out.println("The Winner is " + possibleWinner.get());
+        } else {
+            System.out.println("No winner can be determined");
+        }
+    }
+
     private Optional<Cell> checkNeighbours(Board board, int position) {
         return switch (position) {
             case 0 -> evaluateTopLeftCell(board);

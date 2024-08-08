@@ -19,23 +19,18 @@ public class ManualGameService implements PlayableGame {
                 break;
             }
             possibleWinner = makeMove(State.O, board);
+            if (possibleWinner.isPresent()) {
+                break;
+            }
         } while(possibleWinner.isPresent() || board.areCellsLeft());
         displayGameOutcome(possibleWinner);
     }
 
     private Optional<Cell> makeMove(State state, Board board) {
         String input = readInput(state);
-        board.addCell(new Cell(state), input);
+        board.addCell(new Cell(state, input));
         board.display();
         return determineWinner(board);
-    }
-
-    private static void displayGameOutcome(Optional<Cell> possibleWinner) {
-        if (possibleWinner.isPresent()) {
-            System.out.println("The Winner is " + possibleWinner.get());
-        } else {
-            System.out.println("No winner can be determined");
-        }
     }
 
     private String readInput(State state) {

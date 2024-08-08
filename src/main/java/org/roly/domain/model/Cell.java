@@ -1,9 +1,8 @@
 package org.roly.domain.model;
 
-import java.util.Objects;
-
 public record Cell(
-    State state
+    State state,
+    String position
 ) {
 
     public enum State {
@@ -15,16 +14,21 @@ public record Cell(
             this.value = value;
         }
 
-        private String value;
+        private final String value;
+
+        @Override
+        public String toString() {
+            return value;
+        }
     }
 
-    public boolean isOcupied() {
+    public boolean isOccupied() {
         return state != State.EMPTY;
     }
 
     @Override
     public String toString() {
-        return state.value.toString();
+        return state.value + " - " + position;
     }
 
     @Override
