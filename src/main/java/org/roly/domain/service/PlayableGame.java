@@ -1,29 +1,62 @@
 package org.roly.domain.service;
 
 import java.util.Optional;
+import java.util.Scanner;
 import org.roly.domain.model.Board;
 import org.roly.domain.model.Cell;
+import org.roly.domain.model.Cell.State;
+import org.roly.domain.model.Player;
 
-public interface PlayableGame {
+public abstract class PlayableGame {
 
-    void play();
+    private Player homePlayer;
+    private Player awayPlayer;
+    private long timeout;
 
-    default Optional<Cell> determineWinner(Board board) {
+    public abstract void play();
+
+    protected void initializePlayers() {
+        System.out.print("Specify name for Player playing with X: ");
+        Scanner scanner = new Scanner(System.in);
+        homePlayer = new Player(scanner.nextLine(), State.X);
+        System.out.print("Specify name for Player playing with 0: ");
+        scanner = new Scanner(System.in);
+        awayPlayer = new Player(scanner.nextLine(), State.O);
+    }
+
+    protected Optional<Cell> determineWinner(Board board) {
         for (int i = 0; i < board.getGrid().length; i++) {
-            Optional<Cell> possibleWinner = checkNeighbours(board, i);
-            if (possibleWinner.isPresent()) {
-                return possibleWinner;
+            Optional<Cell> potentialWinningCell = checkNeighbours(board, i);
+            if (potentialWinningCell.isPresent()) {
+                return potentialWinningCell;
             }
         }
         return Optional.empty();
     }
 
-    default void displayGameOutcome(Optional<Cell> possibleWinner) {
+    protected void displayGameOutcome(Optional<Cell> possibleWinner) {
         if (possibleWinner.isPresent()) {
             System.out.println("The Winner is " + possibleWinner.get());
         } else {
             System.out.println("No winner can be determined");
         }
+    }
+
+    protected void displayGameOutcome(Optional<Cell> possibleWinner, Player currentPlayer) {
+        if (possibleWinner.isPresent()) {
+            System.out.println("The Winner is " + currentPlayer.name() + " playing with " + currentPlayer.symbol());
+        } else {
+            System.out.println("No winner can be determined");
+        }
+    }
+
+
+    protected Player switchPlayer(Player currentPlayer) {
+        return switch (currentPlayer.symbol()) {
+            case X -> awayPlayer;
+            case O -> homePlayer;
+            default -> currentPlayer;
+        };
     }
 
     private Optional<Cell> checkNeighbours(Board board, int position) {
@@ -64,4 +97,19 @@ public interface PlayableGame {
         return Optional.empty();
     }
 
+    public Player getHomePlayer() {
+        return homePlayer;
+    }
+
+    public Player getAwayPlayer() {
+        return awayPlayer;
+    }
+
+    public long getTimeout() {
+        return timeout;
+    }
+
+    public void setTimeout(long timeout) {
+        this.timeout = timeout;
+    }
 }

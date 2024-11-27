@@ -5,39 +5,34 @@ import java.util.Optional;
 import java.util.Random;
 import org.roly.domain.model.Board;
 import org.roly.domain.model.Cell;
-import org.roly.domain.model.Cell.State;
+import org.roly.domain.model.Player;
 
-public class AutoGamePlayService implements PlayableGame {
+public class AutoGamePlayService extends PlayableGame {
 
     private final Random rand = new Random();
 
     @Override
     public void play() {
         Board board = new Board();
+        initializePlayers();
         board.display();
-        Optional<Cell> possibleWinner;
-        do {
-            possibleWinner = makeAutoMove(State.X, board);
-            if (possibleWinner.isPresent()) {
-                break;
-            }
-            possibleWinner = makeAutoMove(State.O, board);
-            if (possibleWinner.isPresent()) {
-                break;
-            }
-        } while(possibleWinner.isPresent() || board.areCellsLeft());
-        displayGameOutcome(possibleWinner);
+        Player currentPlayer = getHomePlayer();
+        Optional<Cell> possibleWinningCell = makeAutoMove(currentPlayer, board, getTimeout());
+        while (possibleWinningCell.isEmpty()) {
+            currentPlayer = switchPlayer(currentPlayer);
+            possibleWinningCell = makeAutoMove(currentPlayer, board, getTimeout());
+        }
+        displayGameOutcome(possibleWinningCell, currentPlayer);
     }
 
-    private Optional<Cell> makeAutoMove(State state, Board board) {
+    private Optional<Cell> makeAutoMove(Player player, Board board, long timeout) {
         try {
-            Thread.sleep(3000L);
+            Thread.sleep(timeout);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("board.getListOfEmptyCells() = " + board.getListOfEmptyCells());
         Cell randomEmptyCell = getRandomEmptyCell(board);
-        board.addCell(new Cell(state, randomEmptyCell.position()));
+        board.addCell(new Cell(player.symbol(), randomEmptyCell.position()));
         board.display();
         return determineWinner(board);
     }

@@ -7,7 +7,7 @@ public record Cell(
 
     public enum State {
         X("X"),
-        O("O"),
+        O("0"),
         EMPTY(" ");
 
         State(String value) {

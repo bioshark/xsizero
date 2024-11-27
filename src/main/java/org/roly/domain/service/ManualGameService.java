@@ -4,37 +4,33 @@ import java.util.Optional;
 import java.util.Scanner;
 import org.roly.domain.model.Board;
 import org.roly.domain.model.Cell;
-import org.roly.domain.model.Cell.State;
+import org.roly.domain.model.Player;
 
-public class ManualGameService implements PlayableGame {
+public class ManualGameService extends PlayableGame {
 
     @Override
     public void play() {
         Board board = new Board();
+        initializePlayers();
         board.display();
-        Optional<Cell> possibleWinner;
-        do {
-            possibleWinner = makeMove(State.X, board);
-            if (possibleWinner.isPresent()) {
-                break;
-            }
-            possibleWinner = makeMove(State.O, board);
-            if (possibleWinner.isPresent()) {
-                break;
-            }
-        } while(possibleWinner.isPresent() || board.areCellsLeft());
-        displayGameOutcome(possibleWinner);
+        Player currentPlayer = getHomePlayer();
+        Optional<Cell> possibleWinningCell = makeMove(currentPlayer, board);
+        while (possibleWinningCell.isEmpty()) {
+            currentPlayer = switchPlayer(currentPlayer);
+            possibleWinningCell = makeMove(currentPlayer, board);
+        }
+        displayGameOutcome(possibleWinningCell, currentPlayer);
     }
 
-    private Optional<Cell> makeMove(State state, Board board) {
-        String input = readInput(state);
-        board.addCell(new Cell(state, input));
+    private Optional<Cell> makeMove(Player player, Board board) {
+        String input = readInput(player);
+        board.addCell(new Cell(player.symbol(), input));
         board.display();
         return determineWinner(board);
     }
 
-    private String readInput(State state) {
-        System.out.print("Enter position (row, column) for " + state + ": ");
+    private String readInput(Player player) {
+        System.out.print("Enter position (row, column) for " + player.name() + ": ");
         Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
